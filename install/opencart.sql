@@ -844,7 +844,7 @@ INSERT INTO `oc_country` (`country_id`, `name`, `iso_code_2`, `iso_code_3`, `add
 (212, 'Tonga', 'TO', 'TON', '', 0, 1),
 (213, 'Trinidad and Tobago', 'TT', 'TTO', '', 0, 1),
 (214, 'Tunisia', 'TN', 'TUN', '', 0, 1),
-(215, 'Turkey', 'TR', 'TUR', '', 0, 1),
+(215, 'Türkiye', 'TR', 'TUR', '{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{postcode}, {city} - {zone} / {country}', 0, 1),
 (216, 'Turkmenistan', 'TM', 'TKM', '', 0, 1),
 (217, 'Turks and Caicos Islands', 'TC', 'TCA', '', 0, 1),
 (218, 'Tuvalu', 'TV', 'TUV', '', 0, 1),
@@ -988,7 +988,7 @@ CREATE TABLE `oc_currency` (
 --
 
 INSERT INTO `oc_currency` (`currency_id`, `title`, `code`, `symbol_left`, `symbol_right`, `decimal_place`, `value`, `status`, `date_modified`) VALUES
-(1, 'Pound Sterling', 'GBP', '£', '', '2', 0.61250001, 1, '2014-09-25 14:40:00'),
+(1, 'Türk Lirası', 'TRY', '', 'TL', '2', 1.00000000, 1, '2015-09-20 14:30:52'),
 (2, 'US Dollar', 'USD', '$', '', '2', 1.00000000, 1, '2014-09-25 14:40:00'),
 (3, 'Euro', 'EUR', '', '€', '2', 0.78460002, 1, '2014-09-25 14:40:00');
 
@@ -1766,7 +1766,8 @@ CREATE TABLE `oc_language` (
 --
 
 INSERT INTO `oc_language` (`language_id`, `name`, `code`, `locale`, `image`, `directory`, `sort_order`, `status`) VALUES
-(1, 'English', 'en-gb', 'en-US,en_US.UTF-8,en_US,en-gb,english', 'gb.png', 'english', 1, 1);
+(1, 'Türkçe', 'tr-tr', 'tr-TR,tr_TR.UTF-8,tr_TR,tr,tr-tr,turkish', 'tr.png', 'turkish', 1, 1),
+(2, 'English', 'en-gb', 'en-US,en_US.UTF-8,en_US,en-gb,english', 'gb.png', 'english', 2, 1);
 
 -----------------------------------------------------------
 
@@ -3359,12 +3360,12 @@ INSERT INTO `oc_setting` (`store_id`, `code`, `key`, `value`, `serialized`) VALU
 (0, 'config', 'config_meta_keyword', '', 0),
 (0, 'config', 'config_theme', 'default', 0),
 (0, 'config', 'config_layout_id', '4', 0),
-(0, 'config', 'config_country_id', '222', 0),
-(0, 'config', 'config_zone_id', '3563', 0),
-(0, 'config', 'config_timezone', 'UTC', 0),
-(0, 'config', 'config_language', 'en-gb', 0),
-(0, 'config', 'config_admin_language', 'en-gb', 0),
-(0, 'config', 'config_currency', 'USD', 0),
+(0, 'config', 'config_country_id', '215', 0),
+(0, 'config', 'config_zone_id', '3335', 0),
+(0, 'config', 'config_timezone', 'Europe/Istanbul', 0),
+(0, 'config', 'config_language', 'tr-tr', 0),
+(0, 'config', 'config_admin_language', 'tr-tr', 0),
+(0, 'config', 'config_currency', 'TRY', 0),
 (0, 'config', 'config_currency_auto', '1', 0),
 (0, 'config', 'config_length_class_id', '1', 0),
 (0, 'config', 'config_weight_class_id', '1', 0),
@@ -3375,8 +3376,8 @@ INSERT INTO `oc_setting` (`store_id`, `code`, `key`, `value`, `serialized`) VALU
 (0, 'config', 'config_voucher_min', '1', 0),
 (0, 'config', 'config_voucher_max', '1000', 0),
 (0, 'config', 'config_tax', '1', 0),
-(0, 'config', 'config_tax_default', 'shipping', 0),
-(0, 'config', 'config_tax_customer', 'shipping', 0),
+(0, 'config', 'config_tax_default', 'payment', 0),
+(0, 'config', 'config_tax_customer', 'payment', 0),
 (0, 'config', 'config_customer_online', '0', 0),
 (0, 'config', 'config_customer_activity', '0', 0),
 (0, 'config', 'config_customer_search', '0', 0),
@@ -3430,7 +3431,7 @@ INSERT INTO `oc_setting` (`store_id`, `code`, `key`, `value`, `serialized`) VALU
 (0, 'config', 'config_mail_smtp_hostname', '', 0),
 (0, 'config', 'config_mail_smtp_username', '', 0),
 (0, 'config', 'config_mail_smtp_password', '', 0),
-(0, 'config', 'config_mail_smtp_port', '25', 0),
+(0, 'config', 'config_mail_smtp_port', '587', 0),
 (0, 'config', 'config_mail_smtp_timeout', '5', 0),
 (0, 'config', 'config_mail_alert_email', '', 0),
 (0, 'config', 'config_mail_alert', '["order"]', 1),
