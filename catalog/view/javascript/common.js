@@ -269,6 +269,47 @@ var voucher = {
 	}
 }
 
+var catalog_order = {
+	'add': function(product_code, quantity, note) {
+		$.ajax({
+			url: 'index.php?route=account/catalog_order/add',
+			type: 'post',
+			data: 'product_code=' + product_code + '&quantity=' + (typeof(quantity) != 'undefined' ? quantity : 1) + '&note=' + note,
+			dataType: 'json',
+			success: function(json) {
+				$('.alert').remove();
+
+				if (json['success']) {
+					
+					html ='<tr>';
+          html +='  <td class="text-left">'+product_code+'</td>';
+          html +='  <td class="text-center">'+quantity+'</td>';
+          html +='  <td class="text-left">'+note+'</td>';
+          html +='  <td class="text-right"><a href="'+json['remove']+'" data-toggle="tooltip" title="" class="btn btn-danger"><i class="fa fa-times"></i></a></td>';
+          html +='</tr>';
+					
+					$('#modal-catalog_order').modal('toggle'); 
+					
+					$('div').removeClass('hide');	
+					$('table').removeClass('hide');	
+					$('p').removeClass('hide');	
+					$('p').addClass('hide');	
+					$('#product_list').append(html);	
+					$('#content').parent().before('<div class="alert alert-success"><i class="fa fa-check-circle"></i> ' + json['success'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+				}
+
+				if (json['info']) {
+					$('#content').parent().before('<div class="alert alert-info"><i class="fa fa-info-circle"></i> ' + json['info'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+				}
+				$('html, body').animate({ scrollTop: 0 }, 'slow');
+			}
+		});
+	},
+	'remove': function() {
+
+	}
+}
+
 var wishlist = {
 	'add': function(product_id) {
 		$.ajax({

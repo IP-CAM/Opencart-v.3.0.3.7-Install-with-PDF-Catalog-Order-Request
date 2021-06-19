@@ -1,0 +1,187 @@
+{{ header }}
+<div id="account-catalog-order"  class="container">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
+	{% if success %}
+  <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+  </div>
+  {% endif %}
+  {% if error %}
+  <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error }}
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+  </div>
+  {% endif %}
+	<div class="row">{{ column_left }}
+    {% if column_left and column_right %}
+    {% set class = 'col-sm-6' %}
+    {% elseif column_left or column_right %}
+    {% set class = 'col-sm-9' %}
+    {% else %}
+    {% set class = 'col-sm-12' %}
+    {% endif %}
+    <div id="content" class="{{ class }}">{{ content_top }}
+      <h2>{{ heading_title }}</h2>
+			<table class="table table-bordered table-hover {% if not products %}hide{% endif %}">
+        <thead>
+          <tr>
+            <td class="text-left">{{ column_product_code }}</td>
+            <td class="text-center">{{ column_quantity }}</td>
+            <td class="text-left">{{ column_note }}</td>
+            <td class="text-right">{{ column_action }}</td>
+          </tr>
+        </thead>
+        <tbody id="product_list">
+					{% for product in products %}
+          <tr>
+            <td class="text-left">{{ product.product_code }}</td>
+            <td class="text-center">{{ product.quantity }}</td>
+            <td class="text-left">{{ product.note }}</td>
+            <td class="text-right"><a href="{{ product.remove }}" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-times"></i></a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div class="buttons clearfix {% if not products %}hide{% endif %}" style="margin-bottom:100px;">
+        <div class="pull-right">
+					<button type="button" class="btn btn-primary" onclick="$('#modal-order_send').modal('show');">{{ button_create }}</button>
+				</div>
+      </div>
+			{% if not products %}
+      <p class="">{{ text_empty }}</p>
+			<div class="buttons clearfix" style="margin-bottom:100px;">
+      </div>
+      {% endif %}
+		{{ content_bottom }}
+		</div>
+    {{ column_right }}
+	</div>
+{{ footer }}
+<div id="modal-catalog_order" class="modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title main-heading">{{ product_code }}</h4>
+			</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-sm-12">
+					<h4 class="modal-title"></h4>
+					<span>{{ text_add_info }}</br></br></br></span>
+					
+					<div class="form-group">
+						<label class="control-label" for="input-quantity">{{ entry_quantity }}</label>
+						<input type="text" name="quantity" value="" class="form-control" />
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="input-note">{{ entry_note }}</label>
+						<textarea name="note" cols="60" rows="4" class="form-control"></textarea>
+					</div>
+					<div class="form-group">
+					<button type="button" class="btn btn-primary pull-right" onclick="catalog_order.add('{{ product_code }}', $('input[name=\'quantity\']').val(),$('textarea[name=\'note\']').val());">{{ button_add }}</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+</div>
+<div id="modal-order_send" class="modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title main-heading">{{ text_contact }}</h4>
+			</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-sm-12">
+					<h4 class="modal-title"></h4>
+					<span>{{ text_contact_info }}</br></br></span>
+					<form action="{{ action }}" method="post" enctype="multipart/form-data" class="form-horizontal">
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="input-order_type">{{ entry_order_type }}</label>
+							<div class="col-sm-10">
+								<select name="order_type" id="input-order_type" class="form-control">
+									{% if order_type == 'F' %}
+									<option value="S">{{ order_type_s }}</option>
+									<option value="F" selected="selected">{{ order_type_f }}</option>
+									{% else %}
+									<option value="S" selected="selected">{{ order_type_s }}</option>
+									<option value="F">{{ order_type_f }}</option>
+									{% endif %}
+								</select>
+							</div>
+						</div>
+						<div class="form-group required">
+							<label class="col-sm-2 control-label" for="input-firm">{{ entry_order_firm }}</label>
+							<div class="col-sm-10">
+								<input type="text" name="order_firm" value="{{ order_firm }}" class="form-control" />
+								{% if error_order_firm %}
+								<div class="text-danger">{{ error_order_firm }}</div>
+								{% endif %}
+							</div>
+						</div>
+						<div class="form-group required">
+							<label class="col-sm-2 control-label" for="input-person">{{ entry_order_person }}</label>
+							<div class="col-sm-10">
+								<input type="text" name="order_person" value="{{ order_person }}" class="form-control" />
+								{% if error_order_person %}
+								<div class="text-danger">{{ error_order_person }}</div>
+								{% endif %}
+							</div>
+						</div>
+						<div class="form-group required">
+							<label class="col-sm-2 control-label" for="input-phone">{{ entry_order_phone }}</label>
+							<div class="col-sm-10">
+								<input type="text" name="order_phone" value="{{ order_phone }}" class="form-control" />
+								{% if error_order_phone %}
+								<div class="text-danger">{{ error_order_phone }}</div>
+								{% endif %}
+							</div>
+						</div>
+						<div class="form-group required">
+							<label class="col-sm-2 control-label" for="input-email">{{ entry_order_email }}</label>
+							<div class="col-sm-10">
+								<input type="text" name="order_email" value="{{ order_email }}" class="form-control" />
+								{% if error_order_email %}
+								<div class="text-danger">{{ error_order_email }}</div>
+								{% endif %}
+							</div>
+						</div> 
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="input-note">{{ entry_order_note }}</label>
+							<div class="col-sm-10 offset-sm-2">
+								<textarea name="order_note" cols="60" rows="4" class="form-control"></textarea>
+							</div>
+						</div>  
+						<div class="buttons">
+							<div class="pull-right">
+								<input class="btn btn-primary pull-right" type="submit" value="{{ button_submit }}" />
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+</div>
+<style>
+#modal-catalog_order .form-control{
+	height:auto;
+}
+#modal-catalog_order .modal-title, #modal-order_send .modal-title{
+	color:#cc0000;
+}
+</style>
+<script type="text/javascript"><!--
+{% if product_code %}
+$('#modal-catalog_order').modal('show');
+{% endif %}
+
+//--></script>
